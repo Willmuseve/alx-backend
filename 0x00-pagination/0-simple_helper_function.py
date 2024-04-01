@@ -9,6 +9,6 @@ def index_range(page: int, page_size: int) -> Tuple[int, int]:
     """
     Function takes two int args (page & page_size)
     """
-    start = (page - 1) * page
-    end = start + page
+    start = (page - 1) * page_size
+    end = start + page_size
     return (start, end)
