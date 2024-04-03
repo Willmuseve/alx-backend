@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 """
-A  class LRUCache that inherits from
-BaseCaching and is a caching system.
+A class LRUCache that inherits from
+BaseCaching and is a caching system
 """
 
 
@@ -26,7 +26,7 @@ class LRUCache(BaseCaching):
     def put(self, key, item):
         """
          assign to the dictionary self.cache_data the item
-         value for the key key
+         value for the key
         """
         if key is not None and item is not None:
             if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
