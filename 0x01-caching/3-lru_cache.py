@@ -21,7 +21,7 @@ class LRUCache(BaseCaching):
         Initialize a BasicCache object.
         """
         super().__init__()
-        self.order = OrderedDict()
+        self.order = []
 
     def put(self, key, item):
         """
@@ -30,19 +30,20 @@ class LRUCache(BaseCaching):
         """
         if key is not None and item is not None:
             if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-                # Discard the least recently used item (LRU)
-                discarded_key, _ = self.order.popitem(last=False)
-                print(f"DISCARD: {discarded_key}")
-                if discarded_key in self.cache_data:
-                    del self.cache_data[discarded_key]
+                leastRecently_key = self.order.pop(0)
+                del self.cache_data[leastRecently_key]
+                print("DISCARD:", leastRecently_key)
+
             self.cache_data[key] = item
-            self.order[key] = None
+            self.order.append(key)
 
     def get(self, key):
         """
         return the value in self.cache_data linked to key
         """
         if key is not None:
-            return self.cache_data.get(key)
-        else:
-            return None
+            if key in self.cache_data:
+                self.order.remove(key)
+                self.order.append(key)
+                return self.cache_data[key]
+        return None
