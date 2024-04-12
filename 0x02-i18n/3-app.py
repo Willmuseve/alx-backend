@@ -1,47 +1,35 @@
 #!/usr/bin/env python3
+"""gettext function to parametrize your templates. Use the
+message IDs home_title and home_header"""
 
-"""
-modules to create a route in flask
-"""
-
-
-from flask import Flask, render_template, request
 from flask_babel import Babel
-
-
-app = Flask(__name__)
+from flask import Flask, render_template, request
 
 
 class Config:
-    """
-     Functions that provides basic Babel configurations
-    """
-
+    """Babel class configuration"""
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
 
 
+app = Flask(__name__)
 app.config.from_object(Config)
-
+app.url_map.strict_slashes = False
 babel = Babel(app)
 
 
 @babel.localeselector
-def get_locale():
-    """
-     function to get best match for user locale.
-    """
-    return request.accept_languages.best_match(app.config["LANGUAGES"])
+def get_locale() -> str:
+    """locale functions"""
+    return (request.accept_languages.best_match(app.config["LANGUAGES"]))
 
 
-@app.route("/", methods=["GET"])
-def render_index():
-    """
-    Render the html template index.html index.html
-    """
-    return render_template("3-index.html")
+@app.route('/')
+def get_index() -> str:
+    """get index functions to render html template"""
+    return (render_template('3-index.html'))
 
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
