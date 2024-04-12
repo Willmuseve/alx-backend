@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
-"""
-a route using flask.
-Import and configure flask babel.
-"""
+""" implement a way to force a particular locale by passing the locale=fr
+parameter to your app’s URLs."""
 
 from flask_babel import Babel
 from flask import Flask, render_template, request
 
 
 class Config:
-    """Basic babel configurations"""
+    """Class for Flask Babel configuration"""
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
@@ -23,7 +21,9 @@ babel = Babel(app)
 
 @babel.localeselector
 def get_locale() -> str:
-    """Returns locale"""
+    """detect if the incoming request contains locale argument
+    and ifs value is a supported locale, return it. If not or if the
+    parameter is not present, resort to the previous default behavior."""
     queries = request.query_string.decode('utf-8').split('&')
     query_table = dict(map(
         lambda x: (x if '=' in x else '{}='.format(x)).split('='),
@@ -38,7 +38,7 @@ def get_locale() -> str:
 
 @app.route('/')
 def get_index() -> str:
-    """renders html template"""
+    """Returns the index.html page"""
     return (render_template('4-index.html'))
 
 
